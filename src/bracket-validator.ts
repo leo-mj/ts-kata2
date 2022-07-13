@@ -1,4 +1,4 @@
-function validate(brackets) {
+function validate(brackets: string): boolean {
   if (unevenTotalOrPrematureCloser(brackets)) {
     return false;
   } else if (enclosedOpener(brackets)) {
@@ -9,7 +9,7 @@ function validate(brackets) {
 
 export default validate;
 
-function unevenTotalOrPrematureCloser(brackets) {
+function unevenTotalOrPrematureCloser(brackets: string): boolean {
   if (unevenOrPrematureByType(brackets, "(", ")")) {
     return true;
   } else if (unevenOrPrematureByType(brackets, "[", "]")) {
@@ -20,10 +20,14 @@ function unevenTotalOrPrematureCloser(brackets) {
   return false;
 }
 
-function unevenOrPrematureByType(brackets, opener, closer) {
+function unevenOrPrematureByType(
+  brackets: string,
+  opener: string,
+  closer: string,
+): boolean {
   let openerCount = 0;
   let closerCount = 0;
-  for (let bracket of brackets) {
+  for (const bracket of brackets) {
     if (bracket === opener) {
       openerCount++;
     } else if (bracket === closer) {
@@ -39,9 +43,9 @@ function unevenOrPrematureByType(brackets, opener, closer) {
   return false;
 }
 
-function enclosedOpener(brackets) {
-  let bracketsArray = brackets.split(" ");
-  let bracketsNoSpaces = bracketsArray.join("");
+function enclosedOpener(brackets: string): boolean {
+  const bracketsArray: string[] = brackets.split(" ");
+  const bracketsNoSpaces: string = bracketsArray.join("");
   for (let i = 0; i < bracketsNoSpaces.length; i++) {
     if (isEnclosedByType(bracketsNoSpaces, i, "(", ")")) {
       return true;
@@ -54,14 +58,19 @@ function enclosedOpener(brackets) {
   return false;
 }
 
-function isEnclosedByType(brackets, i, opener, closer) {
-  let bracket = brackets[i];
+function isEnclosedByType(
+  brackets: string,
+  i: number,
+  opener: string,
+  closer: string,
+): boolean {
+  const bracket: string = brackets[i];
   if (bracket != opener) {
     return false;
   }
-  let nextBracket = brackets[i + 1];
-  let closers = [")", "]", "}"];
-  let enclosingClosers = closers.filter((type) => type != closer);
+  const nextBracket: string = brackets[i + 1];
+  const closers: string[] = [")", "]", "}"];
+  const enclosingClosers: string[] = closers.filter((type) => type != closer);
   if (enclosingClosers.includes(nextBracket)) {
     return true;
   }
